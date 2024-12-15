@@ -6,6 +6,8 @@
 
 [Course 2 : Technique Conquer and Divide](#course2)
 
+[Course 3 : Arbres ](#course3)
+
 # <a id="course1"></a> Algorithm Comlexe.
 ---
 
@@ -235,3 +237,156 @@ def fib_recursive(n):
 - **Costly Combination**: Combining solutions can be computationally expensive.
 
 ---
+
+***
+
+
+# <a id="course3"></a>  Arbres.
+---
+
+### Summary of "Les Arbres" (Trees)
+
+---
+
+### **1. Introduction to Trees**
+- **Definition**:
+  - A tree is a hierarchical data structure consisting of nodes connected by parent-child relationships.
+  - Common tree types:
+    - Binary Trees: Nodes with at most two children.
+    - AVL Trees: Balanced binary trees with height differences ≤ 1.
+    - Red-Black Trees: Balanced binary trees with node coloring rules.
+    - N-ary Trees: Nodes can have up to \( n \) children.
+    - Decision Trees: Used in AI, with nodes representing questions and branches representing answers.
+- **Applications**:
+  - Databases, search algorithms, data analysis.
+- **Key Metrics**:
+  - **Height**: Distance from the root to the furthest leaf.
+  - **Depth**: Distance from the root to a node.
+  - For balanced trees, height = \( O(\log n) \).
+
+---
+
+### **2. Tree Representations**
+- **Array Representation**:
+  - Use a 2D array where indices represent nodes; value `-1` indicates no child.
+  - Rarely used due to complexity.
+- **Linked List Representation**:
+  - Define a node structure with attributes for data, left, middle, and right children.
+  - Example (C code):
+    ```c
+    typedef struct Node {
+      Element data;
+      struct Node *left, *middle, *right;
+    } Node;
+    ```
+
+---
+
+### **3. Binary Trees**
+- **Types**:
+  - **Complete**: All levels filled except possibly the last, filled left-to-right.
+  - **Perfect**: All levels filled; total nodes = \( 2^h - 1 \).
+  - **Balanced**: Height difference between left and right subtrees ≤ 1.
+  - **Degenerate**: Resembles a linked list; each node has one child.
+- **Basic Operations**:
+  - Creation, checking emptiness, node insertion/deletion, tree traversal (preorder, inorder, postorder, level-order), calculating size and leaf count.
+
+---
+
+### **4. Traversal Techniques**
+- **Preorder (R-G-D)**:
+  - Visit root, traverse left subtree, traverse right subtree.
+  - Example Code:
+    ```c
+    void prefix(Node *root) {
+      if (root) {
+        printf("%d - ", root->data);
+        prefix(root->left);
+        prefix(root->right);
+      }
+    }
+    ```
+- **Inorder (G-R-D)**:
+  - Traverse left subtree, visit root, traverse right subtree.
+- **Postorder (G-D-R)**:
+  - Traverse left subtree, traverse right subtree, visit root.
+- **Level Order**:
+  - Visit nodes level by level using a queue.
+
+---
+
+### **5. Binary Search Trees (BSTs)**
+- **Definition**:
+  - For each node:
+    - All values in the left subtree < node's value.
+    - All values in the right subtree > node's value.
+- **Key Properties**:
+  - **Inorder Traversal**: Produces a sorted sequence.
+  - **Successor/Predecessor**:
+    - Successor: Smallest node in the right subtree.
+    - Predecessor: Largest node in the left subtree.
+- **Operations**:
+  - Insertion, deletion, searching, finding min/max.
+
+---
+
+### **6. Balanced Binary Search Trees (AVL Trees)**
+- **Definition**:
+  - Height-balanced BSTs where height difference between left and right subtrees ≤ 1.
+- **Rotations**:
+  - Used to maintain balance after insertions or deletions.
+  - Types:
+    - Single Rotations (Left/Right).
+    - Double Rotations (Left-Right or Right-Left).
+- **Complexity**:
+  - All operations (search, insertion, deletion): \( O(\log n) \).
+
+---
+
+### **7. Applications**
+1. **Dynamic Student List Management**:
+   - Store and manage a list of students with operations such as insertion, search, deletion, and sorting using AVL Trees or arrays.
+2. **Decision Trees**:
+   - Applied in AI for decision-making processes, where nodes represent questions and branches represent outcomes.
+
+---
+
+### **Example: AVL Tree Insertion**
+```c
+Node* insert(Node* node, int data) {
+  if (!node) return createNode(data);
+  if (data < node->data)
+    node->left = insert(node->left, data);
+  else if (data > node->data)
+    node->right = insert(node->right, data);
+
+  node->height = 1 + max(height(node->left), height(node->right));
+  int balance = getBalance(node);
+
+  // Left-Left case
+  if (balance > 1 && data < node->left->data)
+    return rightRotate(node);
+
+  // Left-Right case
+  if (balance > 1 && data > node->left->data) {
+    node->left = leftRotate(node->left);
+    return rightRotate(node);
+  }
+
+  // Right-Right case
+  if (balance < -1 && data > node->right->data)
+    return leftRotate(node);
+
+  // Right-Left case
+  if (balance < -1 && data < node->right->data) {
+    node->right = rightRotate(node->right);
+    return leftRotate(node);
+  }
+
+  return node;
+}
+```
+
+---
+
+Would you like a specific section expanded or explained further?
